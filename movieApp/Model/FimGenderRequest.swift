@@ -22,7 +22,7 @@ class FilmGenderRequest {
         self.session = session
     }
 
-    func getGenderList(callBack: @escaping (Result<FilmData, requestError>) -> ()) {
+    func getGenderList(callBack: @escaping (Result<FilmData, RequestError>) -> ()) {
 
         guard let request = URL(string: baseURL+apiKey+language) else {
             callBack(.failure(.incorrectUrl))
@@ -50,22 +50,5 @@ class FilmGenderRequest {
             callBack(.success(responseJson))
         }
         task?.resume()
-    }
-
-    enum requestError: Error {
-        case incorrectUrl, noData, incorrectResponse, undecodableData
-
-        var description: String {
-            switch self {
-            case .incorrectUrl:
-                return "incorrect URL"
-            case .noData:
-                return "no data"
-            case .incorrectResponse:
-                return "incorrect response"
-            case .undecodableData:
-                return "undecodable data"
-            }
-        }
     }
 }

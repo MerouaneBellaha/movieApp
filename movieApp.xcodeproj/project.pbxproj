@@ -16,6 +16,7 @@
 		CB7D34A4247E6601006339C0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D34A3247E6601006339C0 /* Constants.swift */; };
 		CB7D34A6247E7901006339C0 /* FimGenderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D34A5247E7901006339C0 /* FimGenderRequest.swift */; };
 		CB7D34A8247E8DEB006339C0 /* FilmData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D34A7247E8DEB006339C0 /* FilmData.swift */; };
+		CB7D34AA247E971D006339C0 /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D34A9247E971D006339C0 /* RequestError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		CB7D34A3247E6601006339C0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CB7D34A5247E7901006339C0 /* FimGenderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FimGenderRequest.swift; sourceTree = "<group>"; };
 		CB7D34A7247E8DEB006339C0 /* FilmData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmData.swift; sourceTree = "<group>"; };
+		CB7D34A9247E971D006339C0 /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				CB7D34A3247E6601006339C0 /* Constants.swift */,
 				CB7D34A5247E7901006339C0 /* FimGenderRequest.swift */,
 				CB7D34A7247E8DEB006339C0 /* FilmData.swift */,
+				CB7D34A9247E971D006339C0 /* RequestError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB7D34AA247E971D006339C0 /* RequestError.swift in Sources */,
 				CB7D348C247E6140006339C0 /* ViewController.swift in Sources */,
 				CB7D3488247E6140006339C0 /* AppDelegate.swift in Sources */,
 				CB7D348A247E6140006339C0 /* SceneDelegate.swift in Sources */,

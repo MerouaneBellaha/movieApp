@@ -10,45 +10,50 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var myListButton: UIButton!
-    @IBOutlet weak var browseButton: UIButton!
+    @IBOutlet var browseAndListButtons: [UIButton]!
+    @IBOutlet var buttonsHighlighters: [UIView]!
+
     @IBOutlet weak var tableView: UITableView!
 
-//    var fakeList = ["film1", "film2"]
-    var genderList: [Genres]?
+    var test = [UIButton]()
+
+    var genderList: [Genres]? // Correct ?
     var filmGenderRequest = FilmGenderRequest()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        filmGenderRequest.getGenderList { result in
-            switch result {
-            case .failure(let error):
-                print(error.description)
-            case .success(let filmData):
-                self.genderList = filmData.genres
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+        filmGenderRequest.getGenderList { self.manageResult(with: $0) }
+    }
+
+    // Nécessaire de mettre private sur IB ?
+    @IBAction private func browseTapped(_ sender: UIButton) {
+        toggleButtonSelection(sender: sender)
+    }
+
+    @IBAction private func myListTapped(_ sender: UIButton) {
+        toggleButtonSelection(sender: sender)
+    }
+
+    private func toggleButtonSelection(sender: UIButton) {
+        sender.isSelected = true
+        for button in browseAndListButtons where button != sender {
+            button.isSelected = false
+        }
+        for button in buttonsHighlighters {
+            button.backgroundColor == UIColor(named: K.Colors.primary) ? (button.backgroundColor = UIColor(named: K.Colors.secondary)) : (button.backgroundColor = UIColor(named: K.Colors.primary))
         }
     }
 
-    @IBAction func browseTapped(_ sender: Any) {
-        toggleButtonSelection()
-    }
-
-    @IBAction func myListTapped(_ sender: Any) {
-        toggleButtonSelection()
-    }
-
-    func toggleButtonSelection() {
-        if myListButton.isSelected == true {
-            myListButton.isSelected = false
-            browseButton.isSelected = true
-        } else {
-            myListButton.isSelected = true
-            browseButton.isSelected = false
+    private func manageResult(with result:Result<FilmData, RequestError>) {
+        switch result {
+        case .failure(let error):
+            print(error.description)
+        case .success(let filmData):
+            self.genderList = filmData.genres
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }
