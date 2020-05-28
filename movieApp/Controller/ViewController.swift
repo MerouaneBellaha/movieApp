@@ -16,9 +16,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    var genderList: [Genres]? // Correct ?
+    var genderList: [Genres] = [] { didSet { self.tableView.reloadData() }}
     var filmGenderRequest = FilmGenderRequest()
-    var searchedGenderList = [Genres]()
+    var searchedGenderList: [Genres] = [] { didSet { self.tableView.reloadData() }}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,23 +30,17 @@ class ViewController: UIViewController {
 
     @IBAction func searchTapped(_ sender: UIBarButtonItem) {
         UIView.animate(withDuration: 0.25) {
-            self.searchBar.isHidden == true ? self.searchBar.isHidden = false : (self.searchBar.isHidden = true)
+            self.searchBar.isHidden.toggle()
         }
         let newButton = UIBarButtonItem(barButtonSystemItem: searchBar.isHidden ? .search : .stop, target: self, action: #selector(searchTapped(_:)))
         self.navigationItem.setRightBarButton(newButton, animated: false)
-
 
         searchedGenderList.removeAll()
         searchBar.text?.removeAll()
         tableView.reloadData()
     }
 
-    // Nécessaire de mettre private sur IB ?
-    @IBAction private func browseTapped(_ sender: UIButton) {
-        toggleButtonSelection(sender: sender)
-    }
-
-    @IBAction private func myListTapped(_ sender: UIButton) {
+    @IBAction private func genderAndListButtons(_ sender: UIButton) {
         toggleButtonSelection(sender: sender)
     }
 
@@ -54,9 +48,12 @@ class ViewController: UIViewController {
         sender.isSelected = true
         browseAndListButtons.first(where: { $0 != sender } )?.isSelected = false
 
-        for button in buttonsHighlighters {
-            button.backgroundColor == UIColor(named: K.Colors.primary) ? (button.backgroundColor = UIColor(named: K.Colors.secondary)) : (button.backgroundColor = UIColor(named: K.Colors.primary))
+        let backgroundColor = [UIColor(named: K.Colors.secondary), UIColor(named: K.Colors.primary)]
+
+        var rightBackgroundColor: [UIColor?] {
+            sender.tag == 0 ? backgroundColor : backgroundColor.reversed()
         }
+        buttonsHighlighters.enumerated().forEach { $0.element.backgroundColor = rightBackgroundColor[$0.offset] }
     }
 
     private func manageResult(with result:Result<FilmData, RequestError>) {
@@ -64,10 +61,9 @@ class ViewController: UIViewController {
         case .failure(let error):
             print(error.description)
         case .success(let filmData):
-            self.genderList = filmData.genres
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.genderList = filmData.genres
+            }
         }
     }
 }
@@ -78,7 +74,6 @@ extension ViewController: UITableViewDataSource {
         guard searchedGenderList.isEmpty else {
             return searchedGenderList.count
         }
-        guard let genderList = genderList else { return 0 }
         return genderList.count
     }
 
@@ -91,7 +86,6 @@ extension ViewController: UITableViewDataSource {
             cell.textLabel?.text = searchedGenderList[indexPath.row].name
             return cell
         }
-        guard let genderList = genderList else { return cell }
         cell.textLabel?.text = genderList[indexPath.row].name
         return cell
     }
@@ -100,41 +94,14 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedGenderList = (genderList?.filter { $0.name.prefix(searchText.count) == searchText })!
-        tableView.reloadData()
+        searchedGenderList = (genderList.filter { $0.name.prefix(searchText.count) == searchText })
+        // refactoriser
+        if searchedGenderList.isEmpty {
+            searchedGenderList.append(Genres(name: "no result"))
+        }
+
     }
 }
 
-
-
-//extension ViewController: UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let currentCell = tableView.cellForRow(at: indexPath) else { return }
-//        currentCell.backgroundColor = UIColor(named: K.Colors.primaryVariant)
-//    }
-//}
-
-
-//            if self.searchBar.isHidden == true {
-//                self.searchBar.isHidden = false
-////                self.searchBar.alpha = 1
-//            } else {
-//                self.searchBar.isHidden = true
-////                self.searchBar.alpha = 0
-//            }
-
-
-
-
-
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        let currentText = searchBar.text
-//        guard let category = genderList?.first(where: { $0.name == currentText }) else {
-//            // pop up erreur cette catégorie n 'existe pas
-//            return
-//        }
-//        // present secondVC en passant la category pour effectuer l appel réseau sur second vc
-//    }
-
-    // searchBar.addtarget(self, action: , for .editingChanged)
+// present secondVC en passant la category pour effectuer l appel réseau sur second vc
+// pop up erreur cette catégorie n 'existe pas ( appuie sur return mais le nom de la category n'est pas ocmplète)?

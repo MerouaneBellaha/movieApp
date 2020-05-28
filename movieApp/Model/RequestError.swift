@@ -24,3 +24,4 @@ enum RequestError: Error {
         }
     }
 }
+
