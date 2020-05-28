@@ -19,6 +19,16 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="13o-pH-HNc">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="740"/>
                                 <subviews>
+                                    <searchBar hidden="YES" contentMode="redraw" placeholder="search for a category" translatesAutoresizingMaskIntoConstraints="NO" id="JWc-3E-KcI">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
+                                        <color key="backgroundColor" name="primary"/>
+                                        <color key="barTintColor" name="primary"/>
+                                        <textInputTraits key="textInputTraits" textContentType="name"/>
+                                        <scopeButtonTitles>
+                                            <string>Title</string>
+                                            <string>Title</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="StM-MA-x4C">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                         <subviews>
@@ -119,9 +129,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="Logo" prompt=" " id="0cr-Pu-oUi">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="line.horizontal.3" catalog="system" id="W5O-B0-RRA"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="UNY-vA-Jxe"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="UNY-vA-Jxe">
+                            <connections>
+                                <action selector="searchTapped:" destination="BYZ-38-t0r" id="Ilh-1b-xaK"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="JWc-3E-KcI" id="lNe-Nx-2kO"/>
                         <outlet property="tableView" destination="Ceu-od-QqQ" id="2OQ-Xg-yqt"/>
                         <outletCollection property="browseAndListButtons" destination="4te-d2-oSO" collectionClass="NSMutableArray" id="5fj-Uv-zPW"/>
                         <outletCollection property="browseAndListButtons" destination="E76-Zp-HXs" collectionClass="NSMutableArray" id="r0u-Tb-Hrz"/>
