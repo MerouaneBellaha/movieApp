@@ -11,7 +11,7 @@
         <!--Logo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="movieApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="GenresViewController" customModule="movieApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,7 +44,7 @@
                                                     <color key="titleColor" name="white"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="genderAndListButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hob-gU-Zbi"/>
+                                                    <action selector="browseAndListButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hob-gU-Zbi"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E76-Zp-HXs">
@@ -58,7 +58,7 @@
                                                     <color key="titleColor" name="white"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="genderAndListButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xy2-hM-PBe"/>
+                                                    <action selector="browseAndListButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xy2-hM-PBe"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -82,7 +82,7 @@
                                             <constraint firstAttribute="height" constant="4" id="nOv-Gi-dCu"/>
                                         </constraints>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GENDERS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWX-Xv-D3T">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GENRES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWX-Xv-D3T">
                                         <rect key="frame" x="0.0" y="64" width="414" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="ost-4F-vrc"/>
@@ -143,11 +143,60 @@
                         <outletCollection property="browseAndListButtons" destination="E76-Zp-HXs" collectionClass="NSMutableArray" id="r0u-Tb-Hrz"/>
                         <outletCollection property="buttonsHighlighters" destination="uGj-U8-f8N" collectionClass="NSMutableArray" id="2hG-gi-G6f"/>
                         <outletCollection property="buttonsHighlighters" destination="rSh-Dx-AOk" collectionClass="NSMutableArray" id="Qn9-RK-RsJ"/>
+                        <segue destination="tT7-Ea-KNd" kind="show" identifier="toMoviesList" id="hb8-Wx-ZVS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1050.7246376811595" y="135.9375"/>
+        </scene>
+        <!--Movies View Controller-->
+        <scene sceneID="TNV-QW-qZv">
+            <objects>
+                <viewController id="tT7-Ea-KNd" customClass="MoviesViewController" customModule="movieApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4MY-6H-zgt">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="5nl-SI-lDe">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action Films" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mpE-ra-M68">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="vJB-cq-yQQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <color key="textColor" name="white"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tLi-7U-Cyn">
+                                        <rect key="frame" x="0.0" y="60" width="414" height="714"/>
+                                        <color key="backgroundColor" name="primary"/>
+                                    </tableView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="tLi-7U-Cyn" firstAttribute="top" secondItem="mpE-ra-M68" secondAttribute="bottom" id="xYG-Mg-R3c"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" name="primary"/>
+                        <constraints>
+                            <constraint firstItem="EC5-Jb-AJa" firstAttribute="bottom" secondItem="5nl-SI-lDe" secondAttribute="bottom" id="9Dm-iN-fAl"/>
+                            <constraint firstItem="5nl-SI-lDe" firstAttribute="leading" secondItem="4MY-6H-zgt" secondAttribute="leading" id="C0C-Bx-x3o"/>
+                            <constraint firstItem="EC5-Jb-AJa" firstAttribute="trailing" secondItem="5nl-SI-lDe" secondAttribute="trailing" id="Y79-Xh-ZBv"/>
+                            <constraint firstItem="5nl-SI-lDe" firstAttribute="top" secondItem="EC5-Jb-AJa" secondAttribute="top" id="jfS-Ta-jYL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EC5-Jb-AJa"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="GUG-O9-VCZ"/>
+                    <connections>
+                        <outlet property="tableView" destination="tLi-7U-Cyn" id="O8f-Pe-JLE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E3O-jX-g2j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2059" y="136"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lDC-gC-Q79">
