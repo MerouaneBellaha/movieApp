@@ -10,12 +10,15 @@ import Foundation
 
 struct K {
     static let reusableCell = "reusableCell"
+    static let toMoviesList = "toMoviesList"
+    static let noResult = "No result"
+    static let nibName = "MovieCell"
+    static let cellName = "movieCell"
     
     struct Colors {
         static let primary = "primary"
         static let primaryVariant = "primaryVariant"
         static let secondary = "secondary"
         static let white = "white"
-
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class GenresViewController: UIViewController {
 
     @IBOutlet var browseAndListButtons: [UIButton]!
     @IBOutlet var buttonsHighlighters: [UIView]!
@@ -16,15 +16,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    var genderList: [Genres] = [] { didSet { self.tableView.reloadData() }}
-    var filmGenderRequest = FilmGenderRequest()
-    var searchedGenderList: [Genres] = [] { didSet { self.tableView.reloadData() }}
+    var moviesVC = MoviesViewController()
+
+    var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+    var filmGenreRequest = FilmGenreRequest()
+    var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        tableView.delegate = self
         searchBar.delegate = self
-        filmGenderRequest.getGenderList { self.manageResult(with: $0) }
+        filmGenreRequest.getGenreList(request: .genres) { self.manageResult(with: $0) }
         searchBar.searchTextField.textColor = .white
     }
 
@@ -35,12 +38,12 @@ class ViewController: UIViewController {
         let newButton = UIBarButtonItem(barButtonSystemItem: searchBar.isHidden ? .search : .stop, target: self, action: #selector(searchTapped(_:)))
         self.navigationItem.setRightBarButton(newButton, animated: false)
 
-        searchedGenderList.removeAll()
+        searchedGenreList.removeAll()
         searchBar.text?.removeAll()
         tableView.reloadData()
     }
 
-    @IBAction private func genderAndListButtons(_ sender: UIButton) {
+    @IBAction private func browseAndListButtonsTapped(_ sender: UIButton) {
         toggleButtonSelection(sender: sender)
     }
 
@@ -56,25 +59,37 @@ class ViewController: UIViewController {
         buttonsHighlighters.enumerated().forEach { $0.element.backgroundColor = rightBackgroundColor[$0.offset] }
     }
 
-    private func manageResult(with result:Result<FilmData, RequestError>) {
+    private func manageResult(with result: Result<GenresList, RequestError>) {
         switch result {
         case .failure(let error):
             print(error.description)
         case .success(let filmData):
             DispatchQueue.main.async {
-                self.genderList = filmData.genres
+                self.genresList = filmData.genres
             }
+        }
+    }
+
+    private func manageResult(with result: Result<MoviesList, RequestError>) {
+        switch result {
+        case .failure(let error):
+            print(error.description)
+        case .success(let moviesList):
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: K.toMoviesList, sender: moviesList.results)
+            }
+            print(moviesList)
         }
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension GenresViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard searchedGenderList.isEmpty else {
-            return searchedGenderList.count
+        guard searchedGenreList.isEmpty else {
+            return searchedGenreList.count
         }
-        return genderList.count
+        return genresList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,24 +97,43 @@ extension ViewController: UITableViewDataSource {
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(named: K.Colors.primaryVariant)
         cell.selectedBackgroundView = backgroundView
-        guard searchedGenderList.isEmpty else {
-            cell.textLabel?.text = searchedGenderList[indexPath.row].name
+        guard searchedGenreList.isEmpty else {
+            cell.textLabel?.text = searchedGenreList[indexPath.row].name
             return cell
         }
-        cell.textLabel?.text = genderList[indexPath.row].name
+        cell.textLabel?.text = genresList[indexPath.row].name
         return cell
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension GenresViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !(searchedGenreList.first?.name == K.noResult) else {
+            print("C'est non")
+            //pop up ou interdire d'appuyer dessus
+            return
+        }
+        var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
+        let selectedGenreId = String(currentList[indexPath.row].id)
+        filmGenreRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? MoviesViewController, let moviesList = sender as? [Movie] {
+            destinationVC.moviesList = moviesList
+        }
+    }
+}
+
+extension GenresViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedGenderList = (genderList.filter { $0.name.prefix(searchText.count) == searchText })
+        searchedGenreList = (genresList.filter { $0.name.prefix(searchText.count) == searchText })
         // refactoriser
-        if searchedGenderList.isEmpty {
-            searchedGenderList.append(Genres(name: "no result"))
+        if searchedGenreList.isEmpty {
+            searchedGenreList.append(Genre(name: K.noResult, id: 0))
         }
-
     }
 }
 
