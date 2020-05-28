@@ -44,10 +44,10 @@
                                                     <color key="titleColor" name="white"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="browseTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e9T-QA-7Xh"/>
+                                                    <action selector="genderAndListButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hob-gU-Zbi"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E76-Zp-HXs">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E76-Zp-HXs">
                                                 <rect key="frame" x="207" y="0.0" width="207" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,7 +58,7 @@
                                                     <color key="titleColor" name="white"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="myListTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xy2-hM-PBe"/>
+                                                    <action selector="genderAndListButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xy2-hM-PBe"/>
                                                 </connections>
                                             </button>
                                         </subviews>
