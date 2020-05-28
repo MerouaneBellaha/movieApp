@@ -21,7 +21,8 @@
                                 <subviews>
                                     <searchBar hidden="YES" contentMode="redraw" placeholder="search for a category" translatesAutoresizingMaskIntoConstraints="NO" id="JWc-3E-KcI">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
-                                        <color key="backgroundColor" name="primary"/>
+                                        <color key="backgroundColor" name="primaryVariant"/>
+                                        <color key="tintColor" name="white"/>
                                         <color key="barTintColor" name="primary"/>
                                         <textInputTraits key="textInputTraits" textContentType="name"/>
                                         <scopeButtonTitles>

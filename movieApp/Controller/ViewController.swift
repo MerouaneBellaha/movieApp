@@ -16,22 +16,29 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
-        UIView.animate(withDuration: 0.25) {
-            self.searchBar.isHidden == true ? self.searchBar.isHidden = false : (self.searchBar.isHidden = true)
-        }
-        let newButton = UIBarButtonItem(barButtonSystemItem: searchBar.isHidden ? .search : .stop, target: self, action: #selector(searchTapped(_:)))
-        self.navigationItem.setRightBarButton(newButton, animated: false)
-    }
-    
     var genderList: [Genres]? // Correct ?
     var filmGenderRequest = FilmGenderRequest()
+    var searchedGenderList = [Genres]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         searchBar.delegate = self
         filmGenderRequest.getGenderList { self.manageResult(with: $0) }
+        searchBar.searchTextField.textColor = .white
+    }
+
+    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
+        UIView.animate(withDuration: 0.25) {
+            self.searchBar.isHidden == true ? self.searchBar.isHidden = false : (self.searchBar.isHidden = true)
+        }
+        let newButton = UIBarButtonItem(barButtonSystemItem: searchBar.isHidden ? .search : .stop, target: self, action: #selector(searchTapped(_:)))
+        self.navigationItem.setRightBarButton(newButton, animated: false)
+
+
+        searchedGenderList.removeAll()
+        searchBar.text?.removeAll()
+        tableView.reloadData()
     }
 
     // Nécessaire de mettre private sur IB ?
@@ -68,6 +75,9 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard searchedGenderList.isEmpty else {
+            return searchedGenderList.count
+        }
         guard let genderList = genderList else { return 0 }
         return genderList.count
     }
@@ -77,6 +87,10 @@ extension ViewController: UITableViewDataSource {
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(named: K.Colors.primaryVariant)
         cell.selectedBackgroundView = backgroundView
+        guard searchedGenderList.isEmpty else {
+            cell.textLabel?.text = searchedGenderList[indexPath.row].name
+            return cell
+        }
         guard let genderList = genderList else { return cell }
         cell.textLabel?.text = genderList[indexPath.row].name
         return cell
@@ -84,20 +98,14 @@ extension ViewController: UITableViewDataSource {
 }
 
 extension ViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let currentText = searchBar.text
-        guard let category = genderList?.first(where: { $0.name == currentText }) else {
-            // pop up erreur cette catégorie n 'existe pas
-            return
-        }
-        // present secondVC en passant la category pour effectuer l appel réseau sur second vc
-    }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-        print(searchBar.text)
+        searchedGenderList = (genderList?.filter { $0.name.prefix(searchText.count) == searchText })!
+        tableView.reloadData()
     }
 }
+
+
 
 //extension ViewController: UITableViewDelegate {
 //
@@ -115,3 +123,18 @@ extension ViewController: UISearchBarDelegate {
 //                self.searchBar.isHidden = true
 ////                self.searchBar.alpha = 0
 //            }
+
+
+
+
+
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        let currentText = searchBar.text
+//        guard let category = genderList?.first(where: { $0.name == currentText }) else {
+//            // pop up erreur cette catégorie n 'existe pas
+//            return
+//        }
+//        // present secondVC en passant la category pour effectuer l appel réseau sur second vc
+//    }
+
+    // searchBar.addtarget(self, action: , for .editingChanged)
