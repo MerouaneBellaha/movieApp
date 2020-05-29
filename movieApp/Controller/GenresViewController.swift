@@ -75,12 +75,13 @@ class GenresViewController: UIViewController {
     private func manageResult(with result: Result<MoviesList, RequestError>) {
         switch result {
         case .failure(let error):
-            print(error.description)
+            DispatchQueue.main.async {
+                self.setAlertVc(with: error.description)
+            }
         case .success(let moviesList):
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: K.toMoviesList, sender: moviesList.results)
             }
-            print(moviesList)
         }
     }
 }
@@ -99,11 +100,15 @@ extension GenresViewController: UITableViewDataSource {
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(named: K.Colors.primaryVariant)
         cell.selectedBackgroundView = backgroundView
+
         guard searchedGenreList.isEmpty else {
             cell.textLabel?.text = searchedGenreList[indexPath.row].name
+            cell.selectionStyle = cell.textLabel?.text == K.noResult ? .none : .default
             return cell
         }
+
         cell.textLabel?.text = genresList[indexPath.row].name
+
         return cell
     }
 }
@@ -112,8 +117,6 @@ extension GenresViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !(searchedGenreList.first?.name == K.noResult) else {
-            print("C'est non")
-            //pop up ou interdire d'appuyer dessus
             return
         }
         var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
@@ -127,6 +130,7 @@ extension GenresViewController: UITableViewDelegate {
         if let destinationVC = segue.destination as? MoviesViewController, let moviesList = sender as? [Movie] {
             destinationVC.moviesList = moviesList
             destinationVC.chosenGenre = chosenGenre
+            
         }
     }
 }

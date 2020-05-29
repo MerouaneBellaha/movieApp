@@ -10,13 +10,6 @@ import Foundation
 
 class FilmGenreRequest {
 
-    private let apiKey = "api_key=b1f9eb78195e2b48911a79dee29c0f94"
-    private let language = "&language=en-US"
-    private let baseURL = "https://api.themoviedb.org/3"
-    private let chosenRequest = ["/genre/movie/list?", "/discover/movie?"]
-    private let options = "&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
-    private let baseImageUrl = "https://image.tmdb.org/t/p/w500"
-
     private let session: URLSession
     private var task: URLSessionDataTask?
 
@@ -27,7 +20,7 @@ class FilmGenreRequest {
 
     func getGenreList(request: RequestType, callBack: @escaping (Result<GenresList, RequestError>) -> ()) {
 
-        guard let request = URL(string: baseURL+chosenRequest[request.value]+apiKey+language) else {
+        guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+K.request.apikey+K.request.language) else {
             callBack(.failure(.incorrectUrl))
             return
         }
@@ -58,7 +51,7 @@ class FilmGenreRequest {
 
     func getMoviesListByGenre(request: RequestType, id: String, callBack: @escaping (Result<MoviesList, RequestError>) -> ()) {
 
-        guard let request = URL(string: baseURL+chosenRequest[request.value]+apiKey+language+options+id) else {
+        guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+K.request.apikey+K.request.language+K.request.options+id) else {
             callBack(.failure(.incorrectUrl))
             return
         }
