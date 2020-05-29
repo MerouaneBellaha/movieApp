@@ -191,6 +191,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="GUG-O9-VCZ"/>
                     <connections>
+                        <outlet property="genreLabel" destination="mpE-ra-M68" id="xeD-5n-lNE"/>
                         <outlet property="tableView" destination="tLi-7U-Cyn" id="O8f-Pe-JLE"/>
                     </connections>
                 </viewController>
