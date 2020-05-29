@@ -16,7 +16,7 @@ enum RequestError: Error {
         case .incorrectUrl:
             return "incorrect URL"
         case .noData:
-            return "no data"
+            return "Found no data"
         case .incorrectResponse:
             return "incorrect response"
         case .undecodableData:
