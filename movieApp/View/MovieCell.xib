@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Fce-82-Wtu">
-                        <rect key="frame" x="20" y="16" width="270" height="220"/>
+                        <rect key="frame" x="20" y="16" width="270" height="175"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="MWr-Xp-vv7">
                                 <rect key="frame" x="0.0" y="0.0" width="270" height="150"/>
@@ -72,16 +72,16 @@
                             <constraint firstItem="AJN-jr-yJf" firstAttribute="centerX" secondItem="Fce-82-Wtu" secondAttribute="centerX" id="G8m-F4-inm"/>
                             <constraint firstItem="MWr-Xp-vv7" firstAttribute="top" secondItem="Fce-82-Wtu" secondAttribute="top" id="Uu9-fA-fPL"/>
                             <constraint firstAttribute="trailing" secondItem="MWr-Xp-vv7" secondAttribute="trailing" id="Yub-Kk-hH5"/>
-                            <constraint firstAttribute="bottom" secondItem="AJN-jr-yJf" secondAttribute="bottom" constant="4" id="snC-Um-QFo"/>
+                            <constraint firstAttribute="bottom" secondItem="AJN-jr-yJf" secondAttribute="bottom" priority="999" constant="4" id="snC-Um-QFo"/>
                         </constraints>
                     </stackView>
                 </subviews>
                 <color key="backgroundColor" name="primary"/>
                 <constraints>
-                    <constraint firstItem="Fce-82-Wtu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="2xo-lU-DB5"/>
-                    <constraint firstAttribute="trailing" secondItem="Fce-82-Wtu" secondAttribute="trailing" constant="20" id="UXb-Lg-BsK"/>
-                    <constraint firstItem="Fce-82-Wtu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="VSQ-CU-u4y"/>
-                    <constraint firstAttribute="bottom" secondItem="Fce-82-Wtu" secondAttribute="bottom" constant="20" id="fhC-dn-Gtv"/>
+                    <constraint firstItem="Fce-82-Wtu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" identifier="id4" id="2xo-lU-DB5"/>
+                    <constraint firstAttribute="trailing" secondItem="Fce-82-Wtu" secondAttribute="trailing" constant="20" identifier="id3" id="UXb-Lg-BsK"/>
+                    <constraint firstItem="Fce-82-Wtu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" identifier="id2" id="VSQ-CU-u4y"/>
+                    <constraint firstAttribute="bottom" secondItem="Fce-82-Wtu" secondAttribute="bottom" constant="20" identifier="id1" id="fhC-dn-Gtv"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
