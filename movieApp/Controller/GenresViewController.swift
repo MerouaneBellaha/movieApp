@@ -16,11 +16,13 @@ class GenresViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    var moviesVC = MoviesViewController()
+    private var moviesVC = MoviesViewController()
 
-    var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
-    var filmGenreRequest = FilmGenreRequest()
-    var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+    private var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+    private var filmGenreRequest = FilmGenreRequest()
+    private var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+
+    private var chosenGenre = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,11 +119,14 @@ extension GenresViewController: UITableViewDelegate {
         var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
         let selectedGenreId = String(currentList[indexPath.row].id)
         filmGenreRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
+        chosenGenre = currentList[indexPath.row].name
+        print(chosenGenre)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? MoviesViewController, let moviesList = sender as? [Movie] {
             destinationVC.moviesList = moviesList
+            destinationVC.chosenGenre = chosenGenre
         }
     }
 }

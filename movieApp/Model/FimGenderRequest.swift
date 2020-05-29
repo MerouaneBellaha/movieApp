@@ -15,6 +15,7 @@ class FilmGenreRequest {
     private let baseURL = "https://api.themoviedb.org/3"
     private let chosenRequest = ["/genre/movie/list?", "/discover/movie?"]
     private let options = "&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
+    private let baseImageUrl = "https://image.tmdb.org/t/p/w500"
 
     private let session: URLSession
     private var task: URLSessionDataTask?

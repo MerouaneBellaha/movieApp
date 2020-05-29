@@ -13,9 +13,14 @@ class MoviesViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var moviesList: [Movie] = []
+    @IBOutlet weak var genreLabel: UILabel!
 
+    var chosenGenre = ""
+    // passer via un init ?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        genreLabel.text = chosenGenre
         tableView.dataSource = self
         // viewWillAppear ?
         tableView.reloadData()
@@ -33,7 +38,7 @@ extension MoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellName, for: indexPath) as! MovieCell
         cell.overview.text = moviesList[indexPath.row].overview
-        cell.titleLabel.text =  moviesList[indexPath.row].title
+        cell.title.text =  moviesList[indexPath.row].title
         return cell
     }
 }
