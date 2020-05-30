@@ -148,3 +148,10 @@ extension GenresViewController: UISearchBarDelegate {
 
 // present secondVC en passant la category pour effectuer l appel réseau sur second vc
 // pop up erreur cette catégorie n 'existe pas ( appuie sur return mais le nom de la category n'est pas ocmplète)?
+extension NSLayoutConstraint {
+
+    override public var description: String {
+        let id = identifier ?? ""
+        return "id: \(id), constant: \(constant)" //you may print whatever you want here
+    }
+}
