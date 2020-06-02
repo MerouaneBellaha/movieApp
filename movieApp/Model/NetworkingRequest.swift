@@ -87,7 +87,7 @@ class NetworkingRequest {
 
         // MARK: - Networking for MovieDetailsViewController
 
-    func getMovieDetails(request: RequestType, id: String, callBack: @escaping (Result<MovieDetails, RequestError>) -> ()) {
+    func getMovieDetails(request: RequestType, id: String, callBack: @escaping (Result<MovieDetailsModel, RequestError>) -> ()) {
 
         guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+id+K.request.apikey+K.request.language+K.request.addVideos) else {
 
@@ -113,7 +113,7 @@ class NetworkingRequest {
                 callBack(.failure(.undecodableData))
                 return
             }
-            callBack(.success(responseJson))
+            callBack(.success(MovieDetailsModel(data: responseJson)))
         }
         task?.resume()
     }

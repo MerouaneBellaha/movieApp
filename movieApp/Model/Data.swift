@@ -34,6 +34,12 @@ struct MovieDetails: Decodable {
     var overview: String
     var release_date: String
     var videos: Results
+    var credits: Cast
+    var production_companies: [CompanyDetails]
+}
+
+struct CompanyDetails: Decodable {
+    var origin_country: String
 }
 
 struct Results: Decodable {
@@ -42,4 +48,18 @@ struct Results: Decodable {
 
 struct VideoResult: Decodable {
     var key: String
+}
+
+struct Cast: Decodable {
+    var cast: [CastResult]
+    var crew: [CrewResult]
+}
+
+struct CastResult: Decodable {
+    var name: String
+}
+
+struct CrewResult: Decodable {
+    var name: String
+    var job: String
 }

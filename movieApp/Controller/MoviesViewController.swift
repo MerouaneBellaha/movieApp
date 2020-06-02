@@ -35,7 +35,7 @@ class MoviesViewController: UIViewController {
 
     // MARK: - Networking Result management
 
-    private func manageResult(with result: Result<MovieDetails, RequestError>) {
+    private func manageResult(with result: Result<MovieDetailsModel, RequestError>) {
         switch result {
         case .failure(let error):
             DispatchQueue.main.async {
@@ -49,7 +49,7 @@ class MoviesViewController: UIViewController {
     }
 }
 
-    // MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 
 extension MoviesViewController: UITableViewDataSource {
 
@@ -63,22 +63,25 @@ extension MoviesViewController: UITableViewDataSource {
         cell.title.text =  moviesList[indexPath.row].title
         
 
-        let imagePath = URL(string: K.request.baseImageUrl+moviesList[indexPath.row].poster_path)!
-        // guard let ? if let ?
-        do {
-            let data = try Data(contentsOf: imagePath)
+        if let imagePath = URL(string: K.request.baseImageUrl+moviesList[indexPath.row].poster_path),
+            let data = try? Data(contentsOf: imagePath) {
             cell.posterImage.image = UIImage(data: data)
-        } catch {
-            //put noImageAvailable image
-            cell.posterImage.backgroundColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1)
-
-        }
-
+        } else { cell.posterImage.backgroundColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1) }
         return cell
+
+        //        // guard let ? if let ?
+        //        do {
+        //            let data = try Data(contentsOf: imagePath)
+        //            cell.posterImage.image = UIImage(data: data)
+        //        } catch {
+        //            //put noImageAvailable image
+        //            cell.posterImage.backgroundColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1)
+        //
+        //        }
     }
 }
 
-    // MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 
 extension MoviesViewController: UITableViewDelegate {
 
@@ -90,7 +93,7 @@ extension MoviesViewController: UITableViewDelegate {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? MovieDetailsViewController, let movieDetails = sender as? MovieDetails {
+        if let destinationVC = segue.destination as? MovieDetailsViewController, let movieDetails = sender as? MovieDetailsModel {
             destinationVC.movieDetails = movieDetails
         }
     }

@@ -6,13 +6,9 @@
 //  Copyright © 2020 Merouane Bellaha. All rights reserved.
 //
 
-import UIKit
 import WebKit
 
 class MovieDetailsViewController: UIViewController {
-
-    // /!\ VC underConstruction /!\
-
 
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var releaseYear: UILabel!
@@ -20,7 +16,7 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var summary: UILabel!
 
 
-    var movieDetails: MovieDetails?
+    var movieDetails: MovieDetailsModel?
 
     @IBOutlet weak var trailerView: WKWebView!
 
@@ -31,29 +27,23 @@ class MovieDetailsViewController: UIViewController {
         setTrailer()
 
     }
-
     
     private func setDetails() {
         guard let movieDetails = movieDetails else { return }
-        movieTitle.text = movieDetails.title.uppercased()
-        releaseYear.text = movieDetails.release_date.components(separatedBy: "-").first
-        summary.text = movieDetails.overview
-        detailsLabel[0].text = movieDetails.release_date
-        detailsLabel[1].text = "De"
-        detailsLabel[2].text = "Avec"
 
-        for (index, x) in movieDetails.genres.enumerated() {
-           if index < 2 {
-             detailsLabel[3].text?.append(x.name)
-            }
+        movieTitle.text = movieDetails.title
+        releaseYear.text = movieDetails.releaseYear
+        summary.text = movieDetails.summary
+
+        for (index, label) in detailsLabel.enumerated() {
+            label.colorString(text: K.labels[index] + movieDetails.details[index], coloredText: K.labels[index])
+            label.font = .italicSystemFont(ofSize: label.font.pointSize)
         }
-
-        detailsLabel[4].text = "Nationalité"
     }
 
     private func setTrailer() {
         guard let movieDetails = movieDetails else { return }
-        guard let trailerURL = URL(string: K.request.baseYoutube+movieDetails.videos.results[0].key) else { return }
+        guard let trailerURL = URL(string: K.request.baseYoutube+movieDetails.video) else { return }
         let youtubeRequest = URLRequest(url: trailerURL)
         self.trailerView.load(youtubeRequest)
         setDetails()

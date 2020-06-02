@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB1A96DA2486CF14008B9874 /* MovieDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A96D92486CF14008B9874 /* MovieDetailsModel.swift */; };
 		CB7D3488247E6140006339C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D3487247E6140006339C0 /* AppDelegate.swift */; };
 		CB7D348A247E6140006339C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D3489247E6140006339C0 /* SceneDelegate.swift */; };
 		CB7D348C247E6140006339C0 /* GenresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D348B247E6140006339C0 /* GenresViewController.swift */; };
@@ -22,10 +23,12 @@
 		CB8255B6248023650005713B /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8255B4248023650005713B /* MovieCell.swift */; };
 		CB8255B7248023650005713B /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8255B5248023650005713B /* MovieCell.xib */; };
 		CBC0CA6A248198DA00E7ECB0 /* UIViewController+setAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */; };
+		CBCF48C424867C80001EE7EF /* UILabel+colorString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCF48C324867C80001EE7EF /* UILabel+colorString.swift */; };
 		CBE1F0D12482E6810055252B /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB1A96D92486CF14008B9874 /* MovieDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsModel.swift; sourceTree = "<group>"; };
 		CB7D3484247E6140006339C0 /* movieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = movieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB7D3487247E6140006339C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB7D3489247E6140006339C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +46,7 @@
 		CB8255B4248023650005713B /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		CB8255B5248023650005713B /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+setAlertVC.swift"; sourceTree = "<group>"; };
+		CBCF48C324867C80001EE7EF /* UILabel+colorString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+colorString.swift"; sourceTree = "<group>"; };
 		CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +99,7 @@
 				CB8255B0247FF9950005713B /* MoviesViewController.swift */,
 				CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */,
 				CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */,
+				CBCF48C324867C80001EE7EF /* UILabel+colorString.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -117,6 +122,7 @@
 				CB7D34A7247E8DEB006339C0 /* Data.swift */,
 				CB7D34A9247E971D006339C0 /* RequestError.swift */,
 				CB8255B22480200B0005713B /* RequestType.swift */,
+				CB1A96D92486CF14008B9874 /* MovieDetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,7 +206,9 @@
 				CB7D348A247E6140006339C0 /* SceneDelegate.swift in Sources */,
 				CB7D34A8247E8DEB006339C0 /* Data.swift in Sources */,
 				CB7D34A6247E7901006339C0 /* NetworkingRequest.swift in Sources */,
+				CBCF48C424867C80001EE7EF /* UILabel+colorString.swift in Sources */,
 				CB7D34A4247E6601006339C0 /* Constants.swift in Sources */,
+				CB1A96DA2486CF14008B9874 /* MovieDetailsModel.swift in Sources */,
 				CBE1F0D12482E6810055252B /* MovieDetailsViewController.swift in Sources */,
 				CB8255B1247FF9950005713B /* MoviesViewController.swift in Sources */,
 				CB8255B6248023650005713B /* MovieCell.swift in Sources */,
