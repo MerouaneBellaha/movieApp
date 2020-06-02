@@ -16,8 +16,6 @@ class GenresViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    private var moviesVC = MoviesViewController()
-
     private var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
     private var filmGenreRequest = FilmGenreRequest()
     private var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
@@ -148,3 +146,4 @@ extension GenresViewController: UISearchBarDelegate {
 
 // present secondVC en passant la category pour effectuer l appel réseau sur second vc
 // pop up erreur cette catégorie n 'existe pas ( appuie sur return mais le nom de la category n'est pas ocmplète)?
+

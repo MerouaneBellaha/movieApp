@@ -22,6 +22,7 @@
 		CB8255B6248023650005713B /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8255B4248023650005713B /* MovieCell.swift */; };
 		CB8255B7248023650005713B /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8255B5248023650005713B /* MovieCell.xib */; };
 		CBC0CA6A248198DA00E7ECB0 /* UIViewController+setAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */; };
+		CBE1F0D12482E6810055252B /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		CB8255B4248023650005713B /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		CB8255B5248023650005713B /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+setAlertVC.swift"; sourceTree = "<group>"; };
+		CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 			children = (
 				CB7D348B247E6140006339C0 /* GenresViewController.swift */,
 				CB8255B0247FF9950005713B /* MoviesViewController.swift */,
+				CBE1F0D02482E6810055252B /* MovieDetailsViewController.swift */,
 				CBC0CA69248198DA00E7ECB0 /* UIViewController+setAlertVC.swift */,
 			);
 			path = Controller;
@@ -198,6 +201,7 @@
 				CB7D34A8247E8DEB006339C0 /* Data.swift in Sources */,
 				CB7D34A6247E7901006339C0 /* FimGenderRequest.swift in Sources */,
 				CB7D34A4247E6601006339C0 /* Constants.swift in Sources */,
+				CBE1F0D12482E6810055252B /* MovieDetailsViewController.swift in Sources */,
 				CB8255B1247FF9950005713B /* MoviesViewController.swift in Sources */,
 				CB8255B6248023650005713B /* MovieCell.swift in Sources */,
 				CB8255B32480200B0005713B /* RequestType.swift in Sources */,

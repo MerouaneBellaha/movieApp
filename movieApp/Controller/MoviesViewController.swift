@@ -12,9 +12,10 @@ class MoviesViewController: UIViewController {
     
 
     @IBOutlet weak var tableView: UITableView!
-    var moviesList: [Movie] = []
     @IBOutlet weak var genreLabel: UILabel!
 
+    private var filmGenreRequest = FilmGenreRequest()
+    var moviesList: [Movie] = []
     var chosenGenre = ""
     // passer via un init ?
     
@@ -22,10 +23,24 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         genreLabel.text = chosenGenre
         tableView.dataSource = self
+        tableView.delegate = self
         // viewWillAppear ?
         tableView.reloadData()
 
         tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellName)
+    }
+
+    private func manageResult(with result: Result<MovieDetails, RequestError>) {
+        switch result {
+        case .failure(let error):
+            DispatchQueue.main.async {
+                self.setAlertVc(with: error.description)
+            }
+        case .success(let movieDetails):
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: K.toMovieDetails, sender: movieDetails)
+            }
+        }
     }
 }
 
@@ -52,7 +67,22 @@ extension MoviesViewController: UITableViewDataSource {
 
         }
 
-
         return cell
+    }
+}
+
+extension MoviesViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMovieId = String(moviesList[indexPath.row].id)
+        filmGenreRequest.getMovieDetails(request: .details, id: selectedMovieId) {
+            self.manageResult(with: $0)
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? MovieDetailsViewController, let movieDetails = sender as? MovieDetails {
+            destinationVC.movieDetails = movieDetails
+        }
     }
 }
