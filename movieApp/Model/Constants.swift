@@ -16,6 +16,8 @@ struct K {
     static let noResult = "No result"
     static let nibName = "MovieCell"
     static let cellName = "movieCell"
+
+    static let labels = ["Date de sortie: ", "De: ", "Avec: ", "Genres: ", "Nationalité: "]
     
     struct Colors {
         static let primary = "primary"
@@ -31,7 +33,7 @@ struct K {
         static let chosenRequest = ["/genre/movie/list", "/discover/movie", "/movie/"]
         static let options = "&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
         static let baseImageUrl = "https://image.tmdb.org/t/p/w500"
-        static let addVideos = "&append_to_response=videos"
+        static let addVideos = "&append_to_response=videos%2Ccredits"
         static let baseYoutube = "https://www.youtube.com/embed/"
     }
 }
