@@ -11,6 +11,9 @@ import WebKit
 
 class MovieDetailsViewController: UIViewController {
 
+    // /!\ VC underConstruction /!\
+
+
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var releaseYear: UILabel!
     @IBOutlet var detailsLabel: [UILabel]!
@@ -26,15 +29,26 @@ class MovieDetailsViewController: UIViewController {
 
         setDetails()
         setTrailer()
-        
-        print(movieDetails)
+
     }
 
+    
     private func setDetails() {
         guard let movieDetails = movieDetails else { return }
         movieTitle.text = movieDetails.title.uppercased()
         releaseYear.text = movieDetails.release_date.components(separatedBy: "-").first
         summary.text = movieDetails.overview
+        detailsLabel[0].text = movieDetails.release_date
+        detailsLabel[1].text = "De"
+        detailsLabel[2].text = "Avec"
+
+        for (index, x) in movieDetails.genres.enumerated() {
+           if index < 2 {
+             detailsLabel[3].text?.append(x.name)
+            }
+        }
+
+        detailsLabel[4].text = "Nationalité"
     }
 
     private func setTrailer() {

@@ -8,15 +8,20 @@
 
 import Foundation
 
-class FilmGenreRequest {
+class NetworkingRequest {
+
+    // MARK: - Properties
 
     private let session: URLSession
     private var task: URLSessionDataTask?
 
+    // MARK: - Init
 
     init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
+
+    // MARK: - Networking for GenresViewController
 
     func getGenreList(request: RequestType, callBack: @escaping (Result<GenresList, RequestError>) -> ()) {
 
@@ -24,7 +29,6 @@ class FilmGenreRequest {
             callBack(.failure(.incorrectUrl))
             return
         }
-
 
         task?.cancel()
 
@@ -49,13 +53,14 @@ class FilmGenreRequest {
         task?.resume()
     }
 
+        // MARK: - Networking for MoviesViewConroller
+
     func getMoviesListByGenre(request: RequestType, id: String, callBack: @escaping (Result<MoviesList, RequestError>) -> ()) {
 
         guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+K.request.apikey+K.request.language+K.request.options+id) else {
             callBack(.failure(.incorrectUrl))
             return
         }
-
 
         task?.cancel()
 
@@ -80,6 +85,8 @@ class FilmGenreRequest {
         task?.resume()
     }
 
+        // MARK: - Networking for MovieDetailsViewController
+
     func getMovieDetails(request: RequestType, id: String, callBack: @escaping (Result<MovieDetails, RequestError>) -> ()) {
 
         guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+id+K.request.apikey+K.request.language+K.request.addVideos) else {
@@ -92,7 +99,6 @@ class FilmGenreRequest {
 
         task = session.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
-                print("la")
                 callBack(.failure(.noData))
                 return
             }

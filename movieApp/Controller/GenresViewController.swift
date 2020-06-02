@@ -10,28 +10,34 @@ import UIKit
 
 class GenresViewController: UIViewController {
 
-    @IBOutlet var browseAndListButtons: [UIButton]!
-    @IBOutlet var buttonsHighlighters: [UIView]!
+    // MARK: - IBOutlet properties
 
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private var browseAndListButtons: [UIButton]!
+    @IBOutlet private var buttonsHighlighters: [UIView]!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var tableView: UITableView!
+
+    // MARK: - Properties
 
     private var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
-    private var filmGenreRequest = FilmGenreRequest()
+    private var networkingRequest = NetworkingRequest()
     private var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
-
     private var chosenGenre = ""
+
+    // MARK: - ViewLifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        filmGenreRequest.getGenreList(request: .genres) { self.manageResult(with: $0) }
+        networkingRequest.getGenreList(request: .genres) { self.manageResult(with: $0) }
         searchBar.searchTextField.textColor = .white
     }
 
-    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
+    // MARK: - IBAction methods
+
+    @IBAction private func searchTapped(_ sender: UIBarButtonItem) {
         UIView.animate(withDuration: 0.25) {
             self.searchBar.isHidden.toggle()
         }
@@ -47,6 +53,8 @@ class GenresViewController: UIViewController {
         toggleButtonSelection(sender: sender)
     }
 
+    // MARK: - Methods
+
     private func toggleButtonSelection(sender: UIButton) {
         sender.isSelected = true
         browseAndListButtons.first(where: { $0 != sender } )?.isSelected = false
@@ -58,6 +66,8 @@ class GenresViewController: UIViewController {
         }
         buttonsHighlighters.enumerated().forEach { $0.element.backgroundColor = rightBackgroundColor[$0.offset] }
     }
+
+    // MARK: - Networking Result management
 
     private func manageResult(with result: Result<GenresList, RequestError>) {
         switch result {
@@ -83,6 +93,8 @@ class GenresViewController: UIViewController {
         }
     }
 }
+
+    // MARK: - UITableViewDataSource
 
 extension GenresViewController: UITableViewDataSource {
     
@@ -111,6 +123,8 @@ extension GenresViewController: UITableViewDataSource {
     }
 }
 
+    // MARK: - UITableViewDelegate
+
 extension GenresViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -119,7 +133,7 @@ extension GenresViewController: UITableViewDelegate {
         }
         var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
         let selectedGenreId = String(currentList[indexPath.row].id)
-        filmGenreRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
+        networkingRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
         chosenGenre = currentList[indexPath.row].name
         print(chosenGenre)
     }
@@ -133,6 +147,8 @@ extension GenresViewController: UITableViewDelegate {
     }
 }
 
+    // MARK: - UISearchBarDelegate
+
 extension GenresViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -143,7 +159,4 @@ extension GenresViewController: UISearchBarDelegate {
         }
     }
 }
-
-// present secondVC en passant la category pour effectuer l appel réseau sur second vc
-// pop up erreur cette catégorie n 'existe pas ( appuie sur return mais le nom de la category n'est pas ocmplète)?
 

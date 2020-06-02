@@ -10,25 +10,30 @@ import UIKit
 
 class MoviesViewController: UIViewController {
     
+    // MARK: - IBOutlet properties
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var genreLabel: UILabel!
 
-    private var filmGenreRequest = FilmGenreRequest()
+    // MARK: - Properties
+
+    private var networkingRequest = NetworkingRequest()
     var moviesList: [Movie] = []
-    var chosenGenre = ""
-    // passer via un init ?
-    
+    var chosenGenre = ""     // passer via un init ?
+
+    // MARK: - ViewLifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         genreLabel.text = chosenGenre
         tableView.dataSource = self
         tableView.delegate = self
-        // viewWillAppear ?
-        tableView.reloadData()
+        tableView.reloadData()  // viewWillAppear ?
 
         tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellName)
     }
+
+    // MARK: - Networking Result management
 
     private func manageResult(with result: Result<MovieDetails, RequestError>) {
         switch result {
@@ -43,6 +48,8 @@ class MoviesViewController: UIViewController {
         }
     }
 }
+
+    // MARK: - UITableViewDataSource
 
 extension MoviesViewController: UITableViewDataSource {
 
@@ -71,11 +78,13 @@ extension MoviesViewController: UITableViewDataSource {
     }
 }
 
+    // MARK: - UITableViewDelegate
+
 extension MoviesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMovieId = String(moviesList[indexPath.row].id)
-        filmGenreRequest.getMovieDetails(request: .details, id: selectedMovieId) {
+        networkingRequest.getMovieDetails(request: .details, id: selectedMovieId) {
             self.manageResult(with: $0)
         }
     }
