@@ -7,4 +7,4 @@
 I found this technical test online, and gave myself few days to do it and going further if possible.
 Work is still in progress: 50%   
   
-What has been used: TableView, networking, Json, Result Type, MVC
+What has been used: WebKit, TableView, networking, Json, Result Type, MVC
