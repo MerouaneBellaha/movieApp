@@ -26,5 +26,20 @@ struct Movie: Decodable {
     var id: Int
     var title: String
     var overview: String
+}
 
+struct MovieDetails: Decodable {
+    var genres: [Genre]
+    var title: String
+    var overview: String
+    var release_date: String
+    var videos: Results
+}
+
+struct Results: Decodable {
+    var results: [VideoResult]
+}
+
+struct VideoResult: Decodable {
+    var key: String
 }

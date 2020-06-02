@@ -79,4 +79,36 @@ class FilmGenreRequest {
         }
         task?.resume()
     }
+
+    func getMovieDetails(request: RequestType, id: String, callBack: @escaping (Result<MovieDetails, RequestError>) -> ()) {
+
+        guard let request = URL(string: K.request.baseURL+K.request.chosenRequest[request.value]+id+K.request.apikey+K.request.language+K.request.addVideos) else {
+
+            callBack(.failure(.incorrectUrl))
+            return
+        }
+
+        task?.cancel()
+
+        task = session.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("la")
+                callBack(.failure(.noData))
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                response.statusCode == 200 else {
+                    callBack(.failure(.incorrectResponse))
+                    return
+            }
+
+            guard let responseJson = try? JSONDecoder().decode(MovieDetails.self, from: data) else {
+                callBack(.failure(.undecodableData))
+                return
+            }
+            callBack(.success(responseJson))
+        }
+        task?.resume()
+    }
 }
