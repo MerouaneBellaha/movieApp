@@ -5,6 +5,6 @@
 -> then display few informations about the chosen film (VC3) 
 
 I found this technical test online, and gave myself few days to do it and going further if possible.
-Work is still in progress: 50%   
+Work is still in progress: 70%   
   
 What has been used: WebKit, TableView, networking, Json, Result Type, MVC
