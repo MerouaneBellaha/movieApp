@@ -92,6 +92,13 @@ class GenresViewController: UIViewController {
             }
         }
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? MoviesViewController, let moviesList = sender as? [Movie] {
+            destinationVC.moviesList = moviesList
+            destinationVC.chosenGenre = chosenGenre
+        }
+    }
 }
 
     // MARK: - UITableViewDataSource
@@ -136,14 +143,6 @@ extension GenresViewController: UITableViewDelegate {
         networkingRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
         chosenGenre = currentList[indexPath.row].name
         print(chosenGenre)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? MoviesViewController, let moviesList = sender as? [Movie] {
-            destinationVC.moviesList = moviesList
-            destinationVC.chosenGenre = chosenGenre
-            
-        }
     }
 }
 

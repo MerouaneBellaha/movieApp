@@ -10,23 +10,27 @@ import WebKit
 
 class MovieDetailsViewController: UIViewController {
 
-    @IBOutlet weak var movieTitle: UILabel!
-    @IBOutlet weak var releaseYear: UILabel!
-    @IBOutlet var detailsLabel: [UILabel]!
-    @IBOutlet weak var summary: UILabel!
+    // MARK: - IBOutlet properties
 
+    @IBOutlet private weak var movieTitle: UILabel!
+    @IBOutlet private weak var releaseYear: UILabel!
+    @IBOutlet private var detailsLabel: [UILabel]!
+    @IBOutlet private weak var summary: UILabel!
+    @IBOutlet private weak var trailerView: WKWebView!
+
+    // MARK: - Properties
 
     var movieDetails: MovieDetailsModel?
 
-    @IBOutlet weak var trailerView: WKWebView!
+    // MARK: - ViewLifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setDetails()
         setTrailer()
-
     }
+
+    // MARK: - Methods
     
     private func setDetails() {
         guard let movieDetails = movieDetails else { return }
@@ -46,7 +50,6 @@ class MovieDetailsViewController: UIViewController {
         guard let trailerURL = URL(string: K.request.baseYoutube+movieDetails.video) else { return }
         let youtubeRequest = URLRequest(url: trailerURL)
         self.trailerView.load(youtubeRequest)
-        setDetails()
     }
 }
 
