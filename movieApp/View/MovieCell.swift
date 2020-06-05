@@ -15,15 +15,15 @@ class MovieCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var overview: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var movie: Movie? {
+        didSet {
+            title.text = movie?.title
+            overview.text = movie?.overview
+            guard let data = movie?.poster_path.data else {
+                posterImage.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                return
+            }
+            posterImage.image = UIImage(data: data)
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
