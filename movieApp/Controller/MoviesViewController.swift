@@ -59,19 +59,7 @@ extension MoviesViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellName, for: indexPath) as! MovieCell
-
         cell.movie = moviesList[indexPath.row]
-
-//
-//        cell.overview.text = moviesList[indexPath.row].overview
-//        cell.title.text =  moviesList[indexPath.row].title
-//
-//
-//        if let imagePath = URL(string: K.request.baseImageUrl+moviesList[indexPath.row].poster_path),
-//            let data = try? Data(contentsOf: imagePath) {
-//            cell.posterImage.image = UIImage(data: data)
-//        } else { cell.posterImage.backgroundColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1) } // noImageAvailable image
-        
         return cell
     }
 
