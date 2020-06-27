@@ -33,7 +33,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="StM-MA-x4C">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4te-d2-oSO">
+                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4te-d2-oSO">
                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                 <color key="tintColor" name="primary"/>
@@ -47,7 +47,7 @@
                                                     <action selector="browseAndListButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hob-gU-Zbi"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E76-Zp-HXs">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E76-Zp-HXs">
                                                 <rect key="frame" x="207" y="0.0" width="207" height="60"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -71,11 +71,11 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uGj-U8-f8N">
                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="4"/>
-                                                <color key="backgroundColor" name="primary"/>
+                                                <color key="backgroundColor" name="secondary"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rSh-Dx-AOk">
                                                 <rect key="frame" x="207" y="0.0" width="207" height="4"/>
-                                                <color key="backgroundColor" name="secondary"/>
+                                                <color key="backgroundColor" name="primary"/>
                                             </view>
                                         </subviews>
                                         <constraints>

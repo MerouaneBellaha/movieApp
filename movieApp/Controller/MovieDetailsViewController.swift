@@ -49,7 +49,7 @@ class MovieDetailsViewController: UIViewController {
         guard let movieDetails = movieDetails else { return }
         guard let trailerURL = URL(string: K.request.baseYoutube+movieDetails.video) else { return }
         let youtubeRequest = URLRequest(url: trailerURL)
-        self.trailerView.load(youtubeRequest)
+        trailerView.load(youtubeRequest)
     }
 }
 

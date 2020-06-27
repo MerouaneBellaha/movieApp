@@ -19,10 +19,23 @@ class GenresViewController: UIViewController {
 
     // MARK: - Properties
 
-    private var genresList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+    private let defaults = UserDefaults.standard
     private var networkingRequest = NetworkingRequest()
-    private var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
     private var chosenGenre = ""
+    private var requestedGenreLists: [Genre] = [] { didSet { tableView.reloadData() }}
+    private var genresList: [Genre] { browseAndListButtons.first?.isSelected == true ? requestedGenreLists : myList }
+    private var searchedGenreList: [Genre] = [] { didSet { self.tableView.reloadData() }}
+    private var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
+    private var myDefaultsList: [Int: String] = [:] { didSet {
+        guard myList.isEmpty  else { return }
+        for (_, value) in myDefaultsList.enumerated() {
+            myList.append(Genre(name: value.value, id: value.key))
+        }
+    }}
+    private var myList: [Genre] = [] { didSet {
+        myList.sort { $0.name < $1.name }
+        tableView.reloadData() }
+    }
 
     // MARK: - ViewLifeCycle
 
@@ -31,8 +44,13 @@ class GenresViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        networkingRequest.getGenreList(request: .genres) { self.manageResult(with: $0) }
         searchBar.searchTextField.textColor = .white
+        networkingRequest.getGenreList(request: .genres) { self.manageResult(with: $0) }
+
+        if let outData = UserDefaults.standard.data(forKey: "myList") {
+            guard let dataFormatted = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self], from: outData) as? [Int: String] ?? [:] else { return }
+            myDefaultsList = dataFormatted
+        }
     }
 
     // MARK: - IBAction methods
@@ -65,6 +83,9 @@ class GenresViewController: UIViewController {
             sender.tag == 0 ? backgroundColor : backgroundColor.reversed()
         }
         buttonsHighlighters.enumerated().forEach { $0.element.backgroundColor = rightBackgroundColor[$0.offset] }
+
+        tableView.reloadData()
+
     }
 
     // MARK: - Networking Result management
@@ -75,7 +96,8 @@ class GenresViewController: UIViewController {
             print(error.description)
         case .success(let filmData):
             DispatchQueue.main.async {
-                self.genresList = filmData.genres
+                //                self.genresList = filmData.genres
+                self.requestedGenreLists = filmData.genres
             }
         }
     }
@@ -101,12 +123,13 @@ class GenresViewController: UIViewController {
     }
 }
 
-    // MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 
 extension GenresViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard searchedGenreList.isEmpty else {
+        // BUG with searchbar
+        guard searchedGenreList.isEmpty || searchedGenreList.first?.name == K.noResult else {
             return searchedGenreList.count
         }
         return genresList.count
@@ -119,6 +142,7 @@ extension GenresViewController: UITableViewDataSource {
         cell.selectedBackgroundView = backgroundView
 
         guard searchedGenreList.isEmpty else {
+
             cell.textLabel?.text = searchedGenreList[indexPath.row].name
             cell.selectionStyle = cell.textLabel?.text == K.noResult ? .none : .default
             return cell
@@ -130,7 +154,7 @@ extension GenresViewController: UITableViewDataSource {
     }
 }
 
-    // MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 
 extension GenresViewController: UITableViewDelegate {
 
@@ -138,24 +162,46 @@ extension GenresViewController: UITableViewDelegate {
         guard !(searchedGenreList.first?.name == K.noResult) else {
             return
         }
-        var currentList: [Genre] { searchedGenreList.isEmpty ? genresList : searchedGenreList }
         let selectedGenreId = String(currentList[indexPath.row].id)
         networkingRequest.getMoviesListByGenre(request: .movies, id: selectedGenreId) { self.manageResult(with: $0) }
         chosenGenre = currentList[indexPath.row].name
-        print(chosenGenre)
+    }
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard browseAndListButtons.first?.isSelected == true else { return nil }
+
+        let doneAction = UIContextualAction(style: .normal, title: nil) { (_, _, completionHandler) in
+            if self.myDefaultsList.contains(where: { $0.value == self.currentList[indexPath.row].name }) {
+                self.setAlertVc(with: "Cette catégorie est déjà dans votre Liste")
+            } else {
+
+
+                self.myDefaultsList[self.currentList[indexPath.row].id] = self.currentList[indexPath.row].name
+                guard let data = try? NSKeyedArchiver.archivedData(withRootObject: self.myDefaultsList, requiringSecureCoding: false) else { return }
+                UserDefaults.standard.set(data, forKey: "myList")
+                self.myList.append(Genre(name: self.currentList[indexPath.row].name, id: self.currentList[indexPath.row].id))
+            }
+            completionHandler(true)
+        }
+        doneAction.title = "add"
+        doneAction.backgroundColor = UIColor(named: K.Colors.secondary)
+
+        return UISwipeActionsConfiguration(actions: [doneAction])
     }
 }
 
-    // MARK: - UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 
 extension GenresViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchedGenreList = (genresList.filter { $0.name.prefix(searchText.count) == searchText })
-        // refactoriser
+        // refactoriser BUG ?
         if searchedGenreList.isEmpty {
             searchedGenreList.append(Genre(name: K.noResult, id: 0))
         }
+
+        tableView.reloadData()
     }
 }
 
