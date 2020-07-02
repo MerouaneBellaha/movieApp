@@ -9,7 +9,6 @@
 import UIKit
 
 extension UILabel {
-
     /// Modify the color of the selected coloredText in text with chosen color or default
     func colorString(text: String, coloredText: String, color: UIColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)) {
         let attributedString = NSMutableAttributedString(string: text)

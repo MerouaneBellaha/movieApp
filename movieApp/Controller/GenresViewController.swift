@@ -31,10 +31,11 @@ class GenresViewController: UIViewController {
         for (_, value) in myDefaultsList.enumerated() {
             myList.append(Genre(name: value.value, id: value.key))
         }
-    }}
+        }}
     private var myList: [Genre] = [] { didSet {
         myList.sort { $0.name < $1.name }
-        tableView.reloadData() }
+//        tableView.reloadData() }
+        }
     }
 
     // MARK: - ViewLifeCycle
@@ -96,7 +97,6 @@ class GenresViewController: UIViewController {
             print(error.description)
         case .success(let filmData):
             DispatchQueue.main.async {
-                //                self.genresList = filmData.genres
                 self.requestedGenreLists = filmData.genres
             }
         }
@@ -121,6 +121,11 @@ class GenresViewController: UIViewController {
             destinationVC.chosenGenre = chosenGenre
         }
     }
+
+    private func saveUserDefaults() {
+        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: self.myDefaultsList, requiringSecureCoding: false) else { return }
+        UserDefaults.standard.set(data, forKey: "myList")
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -128,8 +133,7 @@ class GenresViewController: UIViewController {
 extension GenresViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // BUG with searchbar
-        guard searchedGenreList.isEmpty || searchedGenreList.first?.name == K.noResult else {
+        guard searchedGenreList.isEmpty else {
             return searchedGenreList.count
         }
         return genresList.count
@@ -142,7 +146,6 @@ extension GenresViewController: UITableViewDataSource {
         cell.selectedBackgroundView = backgroundView
 
         guard searchedGenreList.isEmpty else {
-
             cell.textLabel?.text = searchedGenreList[indexPath.row].name
             cell.selectionStyle = cell.textLabel?.text == K.noResult ? .none : .default
             return cell
@@ -175,10 +178,8 @@ extension GenresViewController: UITableViewDelegate {
                 self.setAlertVc(with: "Cette catégorie est déjà dans votre Liste")
             } else {
 
-
                 self.myDefaultsList[self.currentList[indexPath.row].id] = self.currentList[indexPath.row].name
-                guard let data = try? NSKeyedArchiver.archivedData(withRootObject: self.myDefaultsList, requiringSecureCoding: false) else { return }
-                UserDefaults.standard.set(data, forKey: "myList")
+                self.saveUserDefaults()
                 self.myList.append(Genre(name: self.currentList[indexPath.row].name, id: self.currentList[indexPath.row].id))
             }
             completionHandler(true)
@@ -188,6 +189,15 @@ extension GenresViewController: UITableViewDelegate {
 
         return UISwipeActionsConfiguration(actions: [doneAction])
     }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard browseAndListButtons.first?.isSelected == false,
+            editingStyle == .delete else { return }
+        myDefaultsList.removeValue(forKey: myList[indexPath.row].id)
+        myList.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        saveUserDefaults()
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -196,11 +206,13 @@ extension GenresViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchedGenreList = (genresList.filter { $0.name.prefix(searchText.count) == searchText })
-        // refactoriser BUG ?
-        if searchedGenreList.isEmpty {
-            searchedGenreList.append(Genre(name: K.noResult, id: 0))
-        }
 
+        if searchedGenreList.isEmpty {
+            searchedGenreList.insert(Genre(name: K.noResult, id: 0), at: 0)
+        }
+        if searchText.isEmpty {
+            searchedGenreList.removeAll()
+        }
         tableView.reloadData()
     }
 }
