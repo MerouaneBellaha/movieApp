@@ -19,7 +19,7 @@ class MoviesViewController: UIViewController {
 
     private var networkingRequest = NetworkingRequest()
     var moviesList: [Movie] = []
-    var chosenGenre = ""     // passer via un init ?
+    var chosenGenre = ""
 
     // MARK: - ViewLifeCycle
 
